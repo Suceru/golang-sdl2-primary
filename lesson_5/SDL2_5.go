@@ -32,13 +32,13 @@ func main() {
 	render.Clear()
 	//src := sdl.Rect{0, 0, 800, 600}
 	dst := sdl.Rect{0, 0, 100, 75}
-	image1, err := sdl.LoadBMP("C:/Users/fidax/go/src/github.com/veandco/go-sdl2/.go-sdl2-examples/assets/test.bmp")
+	image1, err := sdl.LoadBMP("../../../veandco/go-sdl2/.go-sdl2-examples/assets/test.bmp")
 	defer image1.Free()
 	texture1, err := render.CreateTextureFromSurface(image1)
 
 	dst.X = 0
 	dst.Y = 100
-	image2, err := img.Load("C:/Users/fidax/go/src/github.com/veandco/go-sdl2/.go-sdl2-examples/assets/test.png")
+	image2, err := img.Load("../../../veandco/go-sdl2/.go-sdl2-examples/assets/test.png")
 	defer image2.Free()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to load PNG: %s\n", err)

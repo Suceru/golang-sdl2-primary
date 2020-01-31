@@ -47,7 +47,7 @@ func main() {
 	}
 
 	//绑定字体
-	font, err := ttf.OpenFont("c:/Users/fidax/go/src/github.com/veandco/go-sdl2/.go-sdl2-examples/assets/test.ttf", 32)
+	font, err := ttf.OpenFont("../../../veandco/go-sdl2/.go-sdl2-examples/assets/test.ttf", 32)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to open font: %s\n", err)
 		panic(err)

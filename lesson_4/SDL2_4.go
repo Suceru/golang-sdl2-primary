@@ -36,7 +36,7 @@ func main() {
 	dst := sdl.Rect{0, 0, 100, 75}
 	//surface背景填充为0，填充大小为默认
 	surface.FillRect(nil, 0xff00ffff)
-	image1, err := sdl.LoadBMP("C:/Users/fidax/go/src/github.com/veandco/go-sdl2/.go-sdl2-examples/assets/test.bmp")
+	image1, err := sdl.LoadBMP("../../../veandco/go-sdl2/.go-sdl2-examples/assets/test.bmp")
 	defer image1.Free()
 	for i := 0; i < 10; i++ {
 		if err := image1.BlitScaled(nil, surface, &dst); err != nil {
@@ -45,7 +45,7 @@ func main() {
 	}
 	dst.X = 0
 	dst.Y = 100
-	image2, err := img.Load("C:/Users/fidax/go/src/github.com/veandco/go-sdl2/.go-sdl2-examples/assets/test.png")
+	image2, err := img.Load("../../../veandco/go-sdl2/.go-sdl2-examples/assets/test.png")
 	defer image2.Free()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to load PNG: %s\n", err)

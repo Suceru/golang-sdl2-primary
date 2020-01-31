@@ -28,7 +28,7 @@ func main() {
 	dst := sdl.Rect{0, 0, 400, 300}
 	//surface背景填充为0，填充大小为默认
 	surface.FillRect(nil, 0)
-	image1, err := sdl.LoadBMP("C:/Users/fidax/go/src/github.com/veandco/go-sdl2/.go-sdl2-examples/assets/test.bmp")
+	image1, err := sdl.LoadBMP("../../../veandco/go-sdl2/.go-sdl2-examples/assets/test.bmp")
 	if err := image1.BlitScaled(nil /*&src*/, surface, &dst); err != nil {
 
 	}

@@ -85,12 +85,12 @@ func main() {
 	src := sdl.Rect{X: 0, Y: 0, W: 800, H: 600}
 	dst := sdl.Rect{X: 0, Y: 0, W: 100, H: 75}
 	//bg := sdl.Rect{X: 0, Y: 0, W: 100, H: 100}
-	image1, err := img.Load("C:/Users/fidax/go/src/github.com/Suceru/golang-sdl2-primary/sucai/timg4.jpg")
+	image1, err := img.Load("../sucai/timg4.jpg")
 	defer image1.Free()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to load BMP: %s\n", err)
 	}
-	image2, err := img.Load("C:/Users/fidax/go/src/github.com/Suceru/golang-sdl2-primary/sucai/Aegi_02.png")
+	image2, err := img.Load("../sucai/Aegi_02.png")
 	defer image2.Free()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to load PNG: %s\n", err)
