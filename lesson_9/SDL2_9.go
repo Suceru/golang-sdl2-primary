@@ -6,6 +6,7 @@ import (
 
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/veandco/go-sdl2/ttf"
 )
 
 type Movedst interface {
@@ -70,7 +71,8 @@ func main() {
 	}
 	defer sdl.Quit()
 	moveli := true
-	moveli = moveli
+	moveli = false
+	updatali := true
 	moveri := 0
 	//创建窗口,渲染器
 	window, render, err := sdl.CreateWindowAndRenderer(WinW, WinH /*sdl.WINDOW_FULLSCREEN_DESKTOP|*/, sdl.RENDERER_ACCELERATED)
@@ -80,6 +82,25 @@ func main() {
 	}
 	defer window.Destroy()
 	defer render.Destroy()
+	//初始化SDL_ttf系统，错误时将结果传入err变量
+	if err := ttf.Init(); err != nil {
+
+		panic(err)
+	}
+	//函数尾退出SDL2_ttf
+	defer ttf.Quit()
+	font, err := ttf.OpenFont("../../../veandco/go-sdl2/.go-sdl2-examples/assets/test.ttf", 32)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to open font: %s\n", err)
+		panic(err)
+	}
+	defer font.Close()
+	//创建一个font到var solid
+	solid, err := font.RenderUTF8Solid("Press 1 to turn on the displascment,`   Press 2 to turn off the displascment,`   Press 3 to turn on the afterimage,`   Press 4 to turn off the afterimage.`    ", sdl.Color{R: 255, G: 255, B: 255, A: 255})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to render text: %s\n", err)
+	}
+	defer solid.Free()
 
 	render.Clear()
 	src := sdl.Rect{X: 0, Y: 0, W: 800, H: 600}
@@ -109,8 +130,34 @@ func main() {
 	texture1, err := render.CreateTextureFromSurface(image1)
 	texture2, err := render.CreateTextureFromSurface(image2)
 	texture3, err := render.CreateTextureFromSurface(image3)
+	texture4, err := render.CreateTextureFromSurface(solid)
 	//set blend mode
 	texture1.SetBlendMode(sdl.BLENDMODE_BLEND)
+
+	//prompt
+	src.X = 0
+	src.Y = 0
+	src.W = (solid.W / 4)
+	src.H = solid.H
+	dst.X = 0
+	dst.Y = 0
+	dst.W = solid.W / 8
+	dst.H = solid.H / 2
+	src.X = (solid.W / 4) * 0
+	dst.Y = (solid.H / 2) * 0
+	render.Copy(texture4, &src, &dst)
+	src.X = (solid.W / 4) * 1
+	dst.Y = (solid.H / 2) * 1
+	render.Copy(texture4, &src, &dst)
+	src.X = (solid.W / 4) * 2
+	dst.Y = (solid.H / 2) * 2
+	render.Copy(texture4, &src, &dst)
+	src.X = (solid.W / 4) * 3
+	dst.Y = (solid.H / 2) * 3
+	render.Copy(texture4, &src, &dst)
+	render.Present()
+	sdl.Delay(2000)
+
 	src.X = (image2.W / 4) * 0
 	src.Y = (image2.H / 4) * 0
 	src.W = image2.W / 4
@@ -175,20 +222,24 @@ func main() {
 					src.X = (image2.W / 4) * (src.Y / (image2.H / 4))
 				} else if (t.Keysym.Sym) == sdl.K_ESCAPE {
 					sdl.Quit()
-				}
-				if (t.Keysym.Sym) == sdl.K_1 {
-					moveli = false
-				}
-				if (t.Keysym.Sym) == sdl.K_2 {
+				} else if (t.Keysym.Sym) == sdl.K_1 {
 					moveli = true
+				} else if (t.Keysym.Sym) == sdl.K_2 {
+					moveli = false
+				} else if (t.Keysym.Sym) == sdl.K_3 {
+					updatali = false
+				} else if (t.Keysym.Sym) == sdl.K_4 {
+					updatali = true
 				}
 				break
 			}
 
 		}
 		//清理屏幕
-		render.Clear()
-		/*if moveli {
+		if updatali == true {
+			render.Clear()
+		}
+		if moveli {
 			if moveri == 0 {
 				xdnrt(&dst)
 			}
@@ -202,7 +253,7 @@ func main() {
 				xdnlt(&dst)
 			}
 		}
-		*/
+
 		//dst=@sdl.Rect,判断是否到边缘
 		if dst.X+dst.W >= wsw {
 			lt(&dst) //dst.X-=1
@@ -251,6 +302,6 @@ func main() {
 
 		render.Copy(texture2, &src, &dst)
 		render.Present()
-		sdl.Delay(50)
+		sdl.Delay(30)
 	}
 }
